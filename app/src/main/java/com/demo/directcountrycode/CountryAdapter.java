@@ -1,37 +1,43 @@
 package com.demo.directcountrycode;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 /**
  * Created by Nishi on 4/27/2018.
  */
 
-public class CountryAdapter extends BaseAdapter implements Filterable {
+public class CountryAdapter extends BaseAdapter implements Filterable, StickyListHeadersAdapter {
 
     private List<Country> originalData = null;
-
     private List<Country> filteredData = null;
-
     private ItemFilter mFilter = new ItemFilter();
-
     private Context context;
-
     private LayoutInflater inflter;
+    private String[] countri;
+
 
     public CountryAdapter(Context context, List<Country> countries) {
+
+
         this.filteredData = countries;
 
         this.originalData = countries;
@@ -39,6 +45,10 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         this.context = context;
 
         inflter = (LayoutInflater.from(context));
+
+        countri = context.getResources().getStringArray(R.array.countries);
+
+
     }
 
     @Override
@@ -56,9 +66,11 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         return i;
     }
 
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
+
+        /*if (view == null) {*/
         view = inflter.inflate(R.layout.row_country_list, null);
 
         Country cou = filteredData.get(i);
@@ -70,21 +82,72 @@ public class CountryAdapter extends BaseAdapter implements Filterable {
         getImageFromAssert(cou.getCountryCode(), countryFlag);
         countryDialCode.setText(cou.getCountryDial_code());
         countryName.setText(cou.getCountryName());
-
-
+    /*    } else {
+            view = (View) view.getTag();
+        }*/
         return view;
     }
-
 
     @Override
     public Filter getFilter() {
         return mFilter;
     }
 
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+
+        HeaderViewHolder holder;
+
+        holder = new HeaderViewHolder();
+        convertView = inflter.inflate(R.layout.header, parent, false);
+        RelativeLayout rl_header = (RelativeLayout) convertView.findViewById(R.id.rl_header);
+
+        holder.text = (TextView) convertView.findViewById(R.id.text1);
+        // convertView.setTag(holder);
+       /* } else {
+            holder = (HeaderViewHolder) convertView.getTag();
+        }*/
+        //set header text as first char in name
+        String headerText = "" + countri[position].subSequence(0, 1).charAt(0);
+    //    Log.e("name of starting  ", headerText);
+        holder.text.setText(headerText);
+        try {
+
+            if (((MainActivity)context).search) {
+
+                rl_header.setVisibility(View.GONE);
+
+            } else {
+                rl_header.setVisibility(View.VISIBLE);
+                /*  if (convertView == null) {*/
+
+            }
+        } catch (Exception e) {
+            return convertView;
+        }
+        return convertView;
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+
+        return countri[position].subSequence(0, 1).charAt(0);
+
+    }
+
+    class HeaderViewHolder {
+        TextView text;
+    }
+
+    class ViewHolder {
+        TextView text;
+    }
 
     private class ItemFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
+
 
             String filterString = constraint.toString().toLowerCase();
 

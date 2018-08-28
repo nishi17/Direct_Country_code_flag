@@ -4,14 +4,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -20,8 +22,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
+import com.turingtechnologies.materialscrollbar.DragScrollBar;
+
 import java.io.InputStream;
 import java.util.List;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,12 +40,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String dc;
 
-
     public List<Country> countryArrayList;
+
     public Commonclass commonclass;
 
     private String get_CountryDial_code, get_CountryCode, get_CountryName;
 
+    public boolean search = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,19 +151,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lp.width = width;
         lp.height = height;
         dialog.getWindow().setAttributes(lp);
+      
 
 
-        EditText et_search = (EditText) dialog.findViewById(R.id.et_search);
-        ListView list_country = (ListView) dialog.findViewById(R.id.list_country);
+        final EditText et_search = (EditText) dialog.findViewById(R.id.et_search);
+        // ListView list_country = (ListView) dialog.findViewById(R.id.list_country);
+        StickyListHeadersListView list_country = (StickyListHeadersListView) dialog.findViewById(R.id.list_country);
         TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                search = false;
                 dialog.dismiss();
             }
         });
+        //  list_country.setTextFilterEnabled(true);
 
-        list_country.setTextFilterEnabled(true);
         final CountryAdapter countryAdapter = new CountryAdapter(mContext, countryArrayList);
         /*Log.d("sizeof", String.valueOf(countryArrayList.size()));*/
 
@@ -176,6 +187,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+        et_search.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if ((et_search.getRootView().getHeight() - et_search.getHeight()) >
+                        et_search.getRootView().getHeight() / 3) {
+
+                    et_search.setFocusable(true);// keyboard is open
+
+                } else {
+                    et_search.setFocusable(false);
+                    // keyboard is closed
+
+                }
+            }
+        });
+
+        et_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    search = true;
+                    //got focus
+                } else {
+                    search = false;
+
+                    //lost focus
+                }
+            }
+        });
         list_country.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -191,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.dismiss();
             }
         });
+
         dialog.show();
     }
 
@@ -204,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             iv_countryFlag.setImageDrawable(null);
         }
     }
-
 
 
 }

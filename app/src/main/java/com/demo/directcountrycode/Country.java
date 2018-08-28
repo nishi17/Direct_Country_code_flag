@@ -16,6 +16,9 @@ public class Country {
         CountryName = countryName;
     }
 
+    public Country() {
+    }
+
     public String getCountryDial_code() {
         return CountryDial_code;
     }

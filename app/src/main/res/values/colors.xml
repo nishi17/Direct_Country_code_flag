@@ -10,4 +10,9 @@
     <color name="black">#000000</color>
 
     <color name="light_gray">#FFB4B0B0</color>
+
+
+    <color name="header_normal">#cfc9c8</color>
+    <color name="header_pressed">#b1abab</color>
+    <color name="menu_section_header">#FFDDDDDD</color>
 </resources>

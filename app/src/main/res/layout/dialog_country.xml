@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top|center"
@@ -31,6 +32,7 @@
                 android:text="@string/cancel"
                 android:textAlignment="center"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/black"
                 android:textStyle="normal" />
 
             <TextView
@@ -43,6 +45,7 @@
                 android:text="@string/choose_country"
                 android:textAlignment="center"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/black"
                 android:textStyle="normal" />
         </LinearLayout>
     </LinearLayout>
@@ -51,13 +54,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center"
-        android:background="@color/light_gray"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/custom_border_search"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="left|center"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_search"
@@ -66,10 +69,12 @@
             android:layout_gravity="left|center"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:focusedByDefault="false"
             android:gravity="left|center"
             android:hint="Search"
             android:imeOptions="actionDone"
             android:lines="1"
+            android:paddingLeft="10dp"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
         <!--
@@ -84,18 +89,31 @@
         -->
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/holo_blue_light" />
+    <!-- <ImageView
+         android:layout_width="match_parent"
+         android:layout_height="3dp"
+         android:background="@android:color/holo_blue_light" />-->
 
-    <ListView
-        android:id="@+id/list_country"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@drawable/list_divide"
-        android:paddingTop="10dp"
-        android:smoothScrollbar="true">
+    <!--   <ListView
+           android:id="@+id/list_country"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/list_divide"
+           android:paddingTop="10dp"
+           android:smoothScrollbar="true">
 
-    </ListView>
+       </ListView>-->
+
+
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+            android:id="@+id/list_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:divider="@drawable/list_divide"
+            android:paddingTop="10dp"
+            android:smoothScrollbar="true">
+
+        </se.emilsjolander.stickylistheaders.StickyListHeadersListView>
 </LinearLayout>

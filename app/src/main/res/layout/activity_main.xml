@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="368dp"
+    android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:gravity="center"
     android:layout_gravity="center"
+    android:layout_margin="10dp"
     android:background="@drawable/custom_border_create_flyer"
-    android:orientation="horizontal"
-    tools:layout_editor_absoluteX="8dp"
-    tools:layout_editor_absoluteY="0dp">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_countryFlag"
         android:layout_width="30dp"
         android:layout_height="23dp"
         android:layout_gravity="center"
+        android:src="@drawable/india_flag"
         android:layout_marginBottom="6dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="6dp"
         android:layout_marginTop="6dp"
+        android:contentDescription="@string/imageview"
         android:scaleType="fitXY" />
     <!--        android:src="@drawable/in"-->
 
@@ -29,21 +29,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="3dp"
+        android:text="+91"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textColor="@color/titlecolr" />
 
     <EditText
         android:id="@+id/et_phoneNumber"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|center"
+        android:layout_gravity="start|center"
         android:layout_margin="4dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:digits="1234567890"
-        android:gravity="left|center"
+        android:gravity="start|center"
+        android:hint="@string/Enter_a_numbe"
         android:imeOptions="actionDone"
-        android:inputType="numberSigned"
+        android:inputType="phone"
         android:maxLength="12"
         android:maxLines="1"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"

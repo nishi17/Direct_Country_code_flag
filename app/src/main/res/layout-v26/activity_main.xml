@@ -59,14 +59,14 @@
             android:textStyle="normal" />
     </LinearLayout>
 
-    <!--<ImageButton-->
-        <!--android:id="@+id/image_byutton"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="50dp"-->
-        <!--android:contentDescription="@string/imageview"-->
-        <!--/>-->
+    <ImageButton
+        android:id="@+id/image_byutton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="50dp"
+        android:contentDescription="@string/imageview"
+      />
 </LinearLayout>
 
 

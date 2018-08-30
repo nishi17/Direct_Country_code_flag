@@ -8,16 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -25,7 +33,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by Nishi on 4/27/2018.
  */
 
-public class CountryAdapter extends BaseAdapter implements Filterable, StickyListHeadersAdapter {
+public class CountryAdapter extends BaseAdapter implements Filterable, StickyListHeadersAdapter, SectionIndexer {
 
     private List<Country> originalData = null;
     private List<Country> filteredData = null;
@@ -33,23 +41,67 @@ public class CountryAdapter extends BaseAdapter implements Filterable, StickyLis
     private Context context;
     private LayoutInflater inflter;
     private String[] countri;
+    HashMap<String, Integer> mapIndex;
+    String[] sections;
 
 
     public CountryAdapter(Context context, List<Country> countries) {
 
-
         this.filteredData = countries;
-
         this.originalData = countries;
-
         this.context = context;
-
         inflter = (LayoutInflater.from(context));
-
         countri = context.getResources().getStringArray(R.array.countries);
 
+        mapIndex = new LinkedHashMap<String, Integer>();
+
+        for (int x = 0; x < filteredData.size(); x++) {
+
+            String fruit = filteredData.get(x).getCountryName();
+
+            String ch = fruit.substring(0, 1);
+
+            ch = ch.toUpperCase(Locale.US);
+
+            // HashMap will prevent duplicates
+            mapIndex.put(ch, x);
+        }
+
+        Set<String> sectionLetters = mapIndex.keySet();
+        // create a list from the set to sort
+        ArrayList<String> sectionList = new ArrayList<String>(sectionLetters);
+
+        Log.d("sectionList", sectionList.toString());
+
+        Collections.sort(sectionList);
+
+        sections = new String[sectionList.size()];
+
+        sectionList.toArray(sections);
 
     }
+
+    @Override
+    public int getPositionForSection(int section) {
+        Log.e("section", "" + section);
+        if (section ==0)
+        return mapIndex.get(sections[section ]);
+        else
+            return mapIndex.get(sections[section - 1 ]);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        Log.e("position", "" + position + 1);
+        return 0;
+    }
+
+    @Override
+    public Object[] getSections() {
+        return sections;
+    }
+
+
 
     @Override
     public int getCount() {
@@ -57,9 +109,14 @@ public class CountryAdapter extends BaseAdapter implements Filterable, StickyLis
     }
 
     @Override
-    public Object getItem(int i) {
-        return filteredData.get(i);
+    public Object getItem(int position) {
+        return filteredData.get(position);
     }
+
+//    @Override
+//    public Object getItem(int i) {
+//        return filteredData.get(i);
+//    }
 
     @Override
     public long getItemId(int i) {
@@ -109,11 +166,11 @@ public class CountryAdapter extends BaseAdapter implements Filterable, StickyLis
         }*/
         //set header text as first char in name
         String headerText = "" + countri[position].subSequence(0, 1).charAt(0);
-    //    Log.e("name of starting  ", headerText);
+        //    Log.e("name of starting  ", headerText);
         holder.text.setText(headerText);
         try {
 
-            if (((MainActivity)context).search) {
+            if (((MainActivity) context).search) {
 
                 rl_header.setVisibility(View.GONE);
 
@@ -146,7 +203,6 @@ public class CountryAdapter extends BaseAdapter implements Filterable, StickyLis
     private class ItemFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-
 
 
             String filterString = constraint.toString().toLowerCase();

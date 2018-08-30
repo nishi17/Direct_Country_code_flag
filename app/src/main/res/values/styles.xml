@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fastScrollOverlayPosition">atThumb</item>
+        <item name="android:fastScrollTextColor">@color/apptheme_color</item>
+
     </style>
 
     <style name="full_screen_dialog">
@@ -17,6 +20,11 @@
         <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
+
+        <item name="android:fastScrollOverlayPosition">aboveThumb</item>
+        <item name="android:fastScrollTextColor">@color/apptheme_color</item>
+
+
     </style>
 
 </resources>

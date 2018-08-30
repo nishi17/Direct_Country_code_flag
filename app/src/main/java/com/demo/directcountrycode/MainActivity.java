@@ -3,9 +3,11 @@ package com.demo.directcountrycode;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,14 +20,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
-import com.turingtechnologies.materialscrollbar.DragScrollBar;
+
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public boolean search = false;
 
+   // private ImageButton image_byutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_countryCode = (TextView) findViewById(R.id.tv_countryCode);
 
         iv_countryFlag = (ImageView) findViewById(R.id.iv_countryFlag);
+
+//        image_byutton   = (ImageButton) findViewById(R.id.image_byutton);
+//        image_byutton.setOnClickListener(this);
 
 
         countryArrayList = commonclass.getCountryDetails(MainActivity.this);
@@ -122,7 +132,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tv_countryCode:
                 showCountryDetails();
                 break;
-
+//            case R.id.image_byutton:
+//
+//
+//
+//                Intent intent = new Intent(Intent.ACTION_SENDTO,Uri.fromParts(
+//                        "mailto","abc@gmail.com", null));
+//                intent.putExtra(Intent.EXTRA_SUBJECT, "complain");
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(intent);
+//                }
+//
+//                break;
         }
     }
 
@@ -151,12 +172,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lp.width = width;
         lp.height = height;
         dialog.getWindow().setAttributes(lp);
-      
+
 
 
         final EditText et_search = (EditText) dialog.findViewById(R.id.et_search);
         // ListView list_country = (ListView) dialog.findViewById(R.id.list_country);
         StickyListHeadersListView list_country = (StickyListHeadersListView) dialog.findViewById(R.id.list_country);
+
+
+        list_country.setFastScrollEnabled(true);
+        String[] fruits = getResources().getStringArray(R.array.countries);
+
+        List<String> fruitList = Arrays.asList(fruits);
+        Collections.sort(fruitList);
+
         TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

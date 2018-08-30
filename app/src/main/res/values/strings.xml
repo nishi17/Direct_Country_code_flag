@@ -220,5 +220,11 @@
     <string name="choose_country" translatable="false">Choose Country</string>
     <string name="flag_imageview">Imgeview for country</string>
     <string name="imageview">imageview</string>
+    <string name="_91">+91</string>
+
+
+
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
